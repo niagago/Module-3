@@ -68,40 +68,14 @@ def caesar_cipher(message, shift):
     # Replace `pass` with your code. 
     # Stay within the function. Only use the parameters as input. The function should return your answer.
     import string
-    import math
 
     alphabet_string = string.ascii_uppercase
-    alphabet_list = list(alphabet_string)
+    shifted = alphabet_string[shift:] + alphabet_string[:shift]
+    table = str.maketrans(alphabet_string, shifted)
 
-    message_list = list(message)
-    i = 0
-    max = len(message_list)
+    final_message = message.translate(table)
 
-    cipher_list = list()
-
-    while i < max:
-        letter = message_list[i]
-
-        if letter == " ":
-            cipher_list.append(" ")
-            i += 1   
-
-        elif letter != " ":
-            j = alphabet_list.index(letter)
-
-            if (j+shift) < len(alphabet_list):
-                cipher_list.append(alphabet_list[j+shift])
-                i += 1  
-
-            elif (j+shift) >= len(alphabet_list):
-                x = (j+shift)/len(alphabet_list)
-                z = math.ceil(x)
-                j = j - len(alphabet_list)
-                alphabet_list2 = alphabet_list*z
-                cipher_list.append(alphabet_list2[j+shift])
-                i += 1 
-
-    return("".join(cipher_list))
+    return final_message
 
 def shift_by_letter(letter, letter_shift):
     '''Shift By Letter. 
