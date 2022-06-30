@@ -40,11 +40,10 @@ def shift_letter(letter, shift):
     
     alphabet = list(' ABCDEFGHIJKLMNOPQRSTUVWXYZ')
     letter_number = (ord('@')+(alphabet.index(letter))+shift) 
-    
     if letter_number >= 91:
         return chr(letter_number - 26)
     elif letter == " ":
-        print ('" "')
+        return letter
     else:
         return chr(letter_number)
 
@@ -69,14 +68,40 @@ def caesar_cipher(message, shift):
     # Replace `pass` with your code. 
     # Stay within the function. Only use the parameters as input. The function should return your answer.
     import string
+    import math
 
-    alphabet = string.ascii_uppercase
-    shifted = alphabet[shift:] + alphabet[:shift]
-    table = str.maketrans(alphabet, shifted)
-    
-    caesar_message = message.translate(table)
-    
-    return (caesar_message)
+    alphabet_string = string.ascii_uppercase
+    alphabet_list = list(alphabet_string)
+
+    message_list = list(message)
+    i = 0
+    max = len(message_list)
+
+    cipher_list = list()
+
+    while i < max:
+        letter = message_list[i]
+
+        if letter == " ":
+            cipher_list.append(" ")
+            i += 1   
+
+        elif letter != " ":
+            j = alphabet_list.index(letter)
+
+            if (j+shift) < len(alphabet_list):
+                cipher_list.append(alphabet_list[j+shift])
+                i += 1  
+
+            elif (j+shift) >= len(alphabet_list):
+                x = (j+shift)/len(alphabet_list)
+                z = math.ceil(x)
+                j = j - len(alphabet_list)
+                alphabet_list2 = alphabet_list*z
+                cipher_list.append(alphabet_list2[j+shift])
+                i += 1 
+
+    return("".join(cipher_list))
 
 def shift_by_letter(letter, letter_shift):
     '''Shift By Letter. 
@@ -108,12 +133,12 @@ def shift_by_letter(letter, letter_shift):
     # Stay within the function. Only use the parameters as input. The function should return your answer.
     alphabet = list(' ABCDEFGHIJKLMNOPQRSTUVWXYZ')
     alphabet_2 = list('ABCDEFGHIJKLMNOPQRSTUVWXYZ')
-    letter_number = (ord('@')+(alphabet.index(letter))+(alphabet_2.index(letter_shift))) 
+    letter_number = (ord('@')+(alphabet.index(letter))+(alphabet_2.index(letter_shift)))
     
     if letter_number >= 91:
         return chr(letter_number - 26)
     elif letter == " ":
-        print ('" "')
+        return letter
     else:
         return chr(letter_number)
 
