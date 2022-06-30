@@ -37,8 +37,9 @@ def shift_letter(letter, shift):
     '''
     # Replace `pass` with your code. 
     # Stay within the function. Only use the parameters as input. The function should return your answer.
+    
     alphabet = list(' ABCDEFGHIJKLMNOPQRSTUVWXYZ')
-    letter_number = (ord('@')+(alphabet.index(letter))+number) 
+    letter_number = (ord('@')+(alphabet.index(letter))+shift) 
     
     if letter_number >= 91:
         return chr(letter_number - 26)
@@ -68,12 +69,14 @@ def caesar_cipher(message, shift):
     # Replace `pass` with your code. 
     # Stay within the function. Only use the parameters as input. The function should return your answer.
     import string
-    
+
     alphabet = string.ascii_uppercase
     shifted = alphabet[shift:] + alphabet[:shift]
     table = str.maketrans(alphabet, shifted)
-    encrypted = message.translate(table)
-    print (encrypted)
+    
+    caesar_message = message.translate(table)
+    
+    return (caesar_message)
 
 def shift_by_letter(letter, letter_shift):
     '''Shift By Letter. 
@@ -146,22 +149,18 @@ def vigenere_cipher(message, key):
     # Replace `pass` with your code. 
     # Stay within the function. Only use the parameters as input. The function should return your answer.
     
-    alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    letter_number = dict(zip(alphabet, range(len(alphabet))))
-    number_letter = dict(zip(range(len(alphabet)), alphabet))
-    
-    encrypted = ''
-    
-    split_message = [message[i:i + len(key)] for i in range (0, len(message), len(key))]
-    
-    for each_split in split_message:
-        i = 0
-        for letter in each_split:
-            number = (letter_number[letter] + letter_number[key[i]]) % len(alphabet)
-            encrypted += number_letter[number]
-            i+=1
-        
-        return encrypted
+    pass
+    key_length = len(key)
+    key_as_int = [ord(i) for i in key]
+    message_int = [ord(i) for i in message]
+    final_answer = ''
+    for i in range(len(message_int)):
+        if message[i].isalpha():
+            value = (message_int[i] + key_as_int[i % key_length]) % 26
+            final_answer += chr(value + 65)
+        else:
+            final_answer += message[i]
+    return final_answer
     
 def scytale_cipher(message, shift):
     '''Scytale Cipher.
@@ -215,14 +214,27 @@ def scytale_cipher(message, shift):
     '''
     # Replace `pass` with your code. 
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    assert len(message) % shift == 0
-    columns = len(message) // shift
-    ciphertext = ['-'] * len(message)
-    for i in range(len(message)):
-        row = i // columns
-        col = i % columns
-        ciphertext[col * shift + row] = message[i]
-    return "".join(ciphertext)
+    if len(message) % shift == 0:
+        length = len(message)
+        columns = length // shift
+        output = [''] * length
+        for i in range(length):
+            element_one = i // columns
+            element_two = i % columns
+            output[element_two * shift + element_one] = message[i]
+        return "".join(output)
+    else:
+        underscore = '_'
+        solve = shift - (len(message) % shift)
+        answer = message + ''.join([char * solve for char in underscore])
+        length = len(new_word)
+        columns = length // shift
+        output = length * ['-']
+        for i in range(length):
+            element_one = i // columns
+            element_two = i % columns
+            output[element_two * shift + element_one] = answer[i]
+        return "".join(output)
 
 def scytale_decipher(message, shift):
     '''Scytale De-cipher.
