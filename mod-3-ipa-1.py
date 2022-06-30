@@ -263,5 +263,29 @@ def scytale_decipher(message, shift):
     # Replace `pass` with your code. 
     # Stay within the function. Only use the parameters as input. The function should return your answer.
     
-    assert len(message) % shift == 0
-    return encrypt(len(message) // shift, message)
+    def scytale_cipher(message, shift):
+
+        if len(message) % shift == 0:
+            length = len(message)
+            columns = length // shift
+            output = [''] * length
+            for i in range(length):
+                element_one = i // columns
+                element_two = i % columns
+                output[element_two * shift + element_one] = message[i]
+            return "".join(output)
+        else:
+            underscore = '_'
+            solving = shift - (len(message) % shift)
+            new_word = message + ''.join([char * solving for char in underscore])
+            length = len(new_word)
+            columns = length // shift
+            output = ['-'] * length
+            for i in range(length):
+                element_one = i // columns
+                element_two = i % columns
+                output[element_two * shift + element_one] = new_word[i]
+            return "".join(output)
+
+    len(message) % shift == 0
+    return scytale_cipher(message, len(message) // shift)
