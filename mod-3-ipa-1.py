@@ -38,14 +38,17 @@ def shift_letter(letter, shift):
     # Replace `pass` with your code. 
     # Stay within the function. Only use the parameters as input. The function should return your answer.
     
-    alphabet = list(' ABCDEFGHIJKLMNOPQRSTUVWXYZ')
-    letter_number = (ord('@')+(alphabet.index(letter))+shift) 
-    if letter_number >= 91:
-        return chr(letter_number - 26)
-    elif letter == " ":
+    import string
+    import math
+    alphabet_string = string.ascii_uppercase
+    alphabet_list = list(alphabet_string)
+    
+    if (letter in alphabet_list):
+        return alphabet_list[alphabet_list.index(letter) + shift - (26 * (math.floor((alphabet_list.index(letter) + shift) / 26)))]
+    elif letter == " " :
         return letter
     else:
-        return chr(letter_number)
+        return (str(letter))
 
 def caesar_cipher(message, shift):
     '''Caesar Cipher. 
@@ -75,7 +78,13 @@ def caesar_cipher(message, shift):
 
     final_message = message.translate(table)
 
-    return final_message
+    return (final_message)
+
+    A = ord('A')
+    return ''.join(
+        chr((ord(char) - A + shift) % 26 + A) if 'A' <= char <= 'Z' else char
+        for char in message.upper())
+
 
 def shift_by_letter(letter, letter_shift):
     '''Shift By Letter. 
@@ -226,6 +235,7 @@ def scytale_cipher(message, shift):
         underscore = '_'
         solve = shift - (len(message) % shift)
         answer = message + ''.join([char * solve for char in underscore])
+        new_word = message + ''.join([char * solving for char in underscore])
         length = len(new_word)
         columns = length // shift
         output = length * ['-']
@@ -276,8 +286,8 @@ def scytale_decipher(message, shift):
             return "".join(output)
         else:
             underscore = '_'
-            solving = shift - (len(message) % shift)
-            new_word = message + ''.join([char * solving for char in underscore])
+            answer = shift - (len(message) % shift)
+            new_word = message + ''.join([char * answer for char in underscore])
             length = len(new_word)
             columns = length // shift
             output = ['-'] * length
