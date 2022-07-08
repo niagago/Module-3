@@ -70,16 +70,6 @@ def caesar_cipher(message, shift):
     '''
     # Replace `pass` with your code. 
     # Stay within the function. Only use the parameters as input. The function should return your answer.
-    import string
-
-    alphabet_string = string.ascii_uppercase
-    shifted = alphabet_string[shift:] + alphabet_string[:shift]
-    table = str.maketrans(alphabet_string, shifted)
-
-    final_message = message.translate(table)
-
-    return (final_message)
-
     A = ord('A')
     return ''.join(
         chr((ord(char) - A + shift) % 26 + A) if 'A' <= char <= 'Z' else char
@@ -233,16 +223,15 @@ def scytale_cipher(message, shift):
         return "".join(output)
     else:
         underscore = '_'
-        solve = shift - (len(message) % shift)
-        answer = message + ''.join([char * solve for char in underscore])
+        solving = shift - (len(message) % shift)
         new_word = message + ''.join([char * solving for char in underscore])
         length = len(new_word)
         columns = length // shift
-        output = length * ['-']
+        output = ['-'] * length
         for i in range(length):
             element_one = i // columns
             element_two = i % columns
-            output[element_two * shift + element_one] = answer[i]
+            output[element_two * shift + element_one] = new_word[i]
         return "".join(output)
 
 def scytale_decipher(message, shift):
